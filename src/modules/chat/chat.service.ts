@@ -15,17 +15,11 @@ export class ChatService {
   async createMessage(createMessageDto: CreateMessageDto) {
     const { content, chatId } = createMessageDto;
     let currentChatId = chatId;
-    console.log(createMessageDto, currentChatId);
 
     if (!currentChatId) {
-      console.log('create chat');
-
       const chat = await this.chatModel.create({ name: content.slice(0, 30) });
-      console.log(chat);
-
       currentChatId = chat.id;
     }
-    console.log(currentChatId);
 
     const message = await this.messageModel.create({
       content,
