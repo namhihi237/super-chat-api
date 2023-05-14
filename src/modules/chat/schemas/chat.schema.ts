@@ -6,10 +6,7 @@ export type ChatDocument = HydratedDocument<Chat>;
 @Schema()
 export class Chat {
   @Prop({ required: true })
-  sender: string;
-
-  @Prop({ required: true })
-  content: string;
+  name: string;
 
   @Prop({ default: Date.now })
   timestamp: Date;

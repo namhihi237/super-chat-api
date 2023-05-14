@@ -7,7 +7,6 @@ export class ChatController {
   constructor(private chatService: ChatService) {}
   @Post()
   async createMessage(@Body() createMessageDto: CreateMessageDto) {
-    console.log(createMessageDto);
-    await this.chatService.createMessage(createMessageDto);
+    return await this.chatService.createMessage(createMessageDto);
   }
 }
