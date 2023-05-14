@@ -4,6 +4,7 @@ import { ChatService } from './chat.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Message, MessageSchema } from './schemas/message.schema';
 import { Chat, ChatSchema } from './schemas/chat.schema';
+import { OpenAiModule } from '../../shared/open-ai/open-ai.module';
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import { Chat, ChatSchema } from './schemas/chat.schema';
       { name: Message.name, schema: MessageSchema },
       { name: Chat.name, schema: ChatSchema },
     ]),
+    OpenAiModule,
   ],
   controllers: [ChatController],
   providers: [ChatService],
