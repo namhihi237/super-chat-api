@@ -6,10 +6,12 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { CommonResponseInterceptor } from './interceptors/response';
 import { OpenAiModule } from './shared/open-ai/open-ai.module';
+import { config } from 'dotenv';
+config();
 @Module({
   imports: [
     ChatModule,
-    MongooseModule.forRoot('mongodb://localhost:27017/chatdb'),
+    MongooseModule.forRoot(process.env.DATABASE_CONNECTION),
     OpenAiModule,
   ],
   controllers: [AppController],
