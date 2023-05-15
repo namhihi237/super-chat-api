@@ -37,4 +37,12 @@ export class ChatService {
   async getChats() {
     return this.chatModel.find({}, { __v: 0 });
   }
+
+  async getChat(chatId: string) {
+    return this.chatModel.findById(chatId);
+  }
+
+  async getMessagesByChatId(chatId: string) {
+    return this.messageModel.find({ chatId }).sort({ timestamp: -1 });
+  }
 }

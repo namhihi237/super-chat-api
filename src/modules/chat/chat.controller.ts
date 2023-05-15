@@ -1,6 +1,14 @@
 import { ChatService } from './chat.service';
 import { CreateMessageDto } from './dto/message.dto';
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Types } from 'mongoose';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+} from '@nestjs/common';
 
 @Controller('chat')
 export class ChatController {
@@ -14,5 +22,19 @@ export class ChatController {
   @Get()
   async getChats() {
     return this.chatService.getChats();
+  }
+
+  @Get('/:id')
+  async getChat(@Param('id') id: string) {
+    if (!id || !Types.ObjectId.isValid(id)) {
+      throw new BadRequestException({ message: 'Chat not found' });
+    }
+
+    const chat = await this.chatService.getChat(id);
+    if (!chat) {
+      throw new BadRequestException({ message: 'Chat not found' });
+    }
+
+    return this.chatService.getMessagesByChatId(id);
   }
 }
