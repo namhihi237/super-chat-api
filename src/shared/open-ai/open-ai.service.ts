@@ -23,6 +23,6 @@ export class OpenAiService {
       n: 1,
     });
 
-    return response.data.choices[0].text;
+    return response.data.choices[0].text.trim();
   }
 }

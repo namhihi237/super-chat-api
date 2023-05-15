@@ -25,20 +25,13 @@ export class ChatService {
 
     const answer = await this.openAi.generateResponse(content);
 
-    const message = await this.messageModel.create([
-      {
-        content,
-        chatId: currentChatId,
-        sender: 'user',
-      },
-      {
-        content: answer,
-        chatId: currentChatId,
-        sender: 'bot',
-      },
-    ]);
+    const message = await this.messageModel.create({
+      content,
+      chatId: currentChatId,
+      answer,
+    });
 
-    return message.find((message) => message.sender === 'bot');
+    return message;
   }
 
   async getChats() {

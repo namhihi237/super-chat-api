@@ -9,10 +9,10 @@ export class Message {
   chatId: string;
 
   @Prop({ required: true })
-  sender: string;
-
-  @Prop({ required: true })
   content: string;
+
+  @Prop()
+  answer: string;
 
   @Prop({ default: Date.now })
   timestamp: Date;
