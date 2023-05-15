@@ -40,4 +40,8 @@ export class ChatService {
 
     return message.find((message) => message.sender === 'bot');
   }
+
+  async getChats() {
+    return this.chatModel.find({}, { __v: 0 });
+  }
 }
