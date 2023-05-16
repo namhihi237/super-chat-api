@@ -35,7 +35,7 @@ export class ChatService {
   }
 
   async getChats() {
-    return this.chatModel.find({}, { __v: 0 });
+    return this.chatModel.find({}, { __v: 0 }).sort({ timestamp: -1 });
   }
 
   async getChat(chatId: string) {
@@ -43,6 +43,10 @@ export class ChatService {
   }
 
   async getMessagesByChatId(chatId: string) {
-    return this.messageModel.find({ chatId }).sort({ timestamp: -1 });
+    return this.messageModel.find({ chatId });
+  }
+
+  async deleteChat(id: string) {
+    return this.chatModel.findByIdAndUpdate(id, { isDelete: true });
   }
 }

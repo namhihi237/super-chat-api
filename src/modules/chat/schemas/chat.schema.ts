@@ -8,6 +8,9 @@ export class Chat {
   @Prop({ required: true })
   name: string;
 
+  @Prop({ required: true, default: false })
+  isDelete: boolean;
+
   @Prop({ default: Date.now })
   timestamp: Date;
 }
