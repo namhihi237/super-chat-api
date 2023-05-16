@@ -7,9 +7,14 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { CommonResponseInterceptor } from './interceptors/response';
 import { OpenAiModule } from './shared/open-ai/open-ai.module';
 import { config } from 'dotenv';
+import { ThrottlerModule } from '@nestjs/throttler';
 config();
 @Module({
   imports: [
+    ThrottlerModule.forRoot({
+      ttl: 60, // Time-to-live for rate limiter
+      limit: 20, // Maximum requests allowed in the defined duration
+    }),
     ChatModule,
     MongooseModule.forRoot(process.env.DATABASE_CONNECTION),
     OpenAiModule,

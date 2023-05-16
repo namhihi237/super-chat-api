@@ -10,11 +10,14 @@ import {
   Post,
   Delete,
 } from '@nestjs/common';
+import { SkipThrottle } from '@nestjs/throttler';
 
+@SkipThrottle()
 @Controller('chat')
 export class ChatController {
   constructor(private chatService: ChatService) {}
 
+  @SkipThrottle(false)
   @Post()
   async createMessage(@Body() createMessageDto: CreateMessageDto) {
     return await this.chatService.createMessage(createMessageDto);
