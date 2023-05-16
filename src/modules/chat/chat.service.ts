@@ -5,7 +5,7 @@ import { Message } from './schemas/message.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Chat } from './schemas/chat.schema';
 import { OpenAiService } from '../../shared/open-ai/open-ai.service';
-
+import { ChatType } from './dto/message.dto';
 @Injectable()
 export class ChatService {
   constructor(
@@ -15,7 +15,7 @@ export class ChatService {
   ) {}
 
   async createMessage(createMessageDto: CreateMessageDto) {
-    const { content, chatId } = createMessageDto;
+    const { content, chatId, type } = createMessageDto;
     let currentChatId = chatId;
 
     if (!currentChatId) {
@@ -23,15 +23,35 @@ export class ChatService {
       currentChatId = chat.id;
     }
 
-    const answer = await this.openAi.generateResponse(content);
+    if (type === ChatType.Chat) {
+      const answer = await this.openAi.generateResponse(content);
 
-    const message = await this.messageModel.create({
-      content,
-      chatId: currentChatId,
-      answer,
-    });
+      const message = await this.messageModel.create({
+        content,
+        chatId: currentChatId,
+        answer,
+      });
+      return message;
+    } else if (type === ChatType.ChatCompletion) {
+      await this.messageModel.create({
+        content,
+        chatId: currentChatId,
+        role: 'user',
+      });
+      const messageHistories = await this.messageModel.find({
+        chatId: currentChatId,
+      });
+      const messages = messageHistories.map((message) => {
+        return { content: message.content, role: message.role };
+      });
 
-    return message;
+      const responseMessage = await this.openAi.chatCompletions(messages);
+      return this.messageModel.create({
+        content: responseMessage.content,
+        role: responseMessage.role,
+        chatId: currentChatId,
+      });
+    }
   }
 
   async getChats() {

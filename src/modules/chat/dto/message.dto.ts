@@ -1,5 +1,10 @@
 import { IsString, IsNotEmpty, IsOptional } from 'class-validator';
 
+export enum ChatType {
+  Chat = 'chat',
+  ChatCompletion = 'chatCompletion',
+}
+
 export class CreateMessageDto {
   @IsString()
   @IsNotEmpty()
@@ -8,4 +13,8 @@ export class CreateMessageDto {
   @IsOptional()
   @IsString()
   chatId: string;
+
+  @IsOptional()
+  @IsString()
+  type: ChatType;
 }

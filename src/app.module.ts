@@ -11,10 +11,10 @@ import { ThrottlerModule } from '@nestjs/throttler';
 config();
 @Module({
   imports: [
-    ThrottlerModule.forRoot({
-      ttl: 60, // Time-to-live for rate limiter
-      limit: 20, // Maximum requests allowed in the defined duration
-    }),
+    // ThrottlerModule.forRoot({
+    //   ttl: 60, // Time-to-live for rate limiter
+    //   limit: 30, // Maximum requests allowed in the defined duration
+    // }),
     ChatModule,
     MongooseModule.forRoot(process.env.DATABASE_CONNECTION),
     OpenAiModule,

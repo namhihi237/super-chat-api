@@ -1,3 +1,4 @@
+import { ChatCompletionRequestMessageRoleEnum } from 'openai';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 
@@ -16,6 +17,9 @@ export class Message {
 
   @Prop({ default: Date.now })
   timestamp: Date;
+
+  @Prop()
+  role: ChatCompletionRequestMessageRoleEnum;
 }
 
 export const MessageSchema = SchemaFactory.createForClass(Message);
