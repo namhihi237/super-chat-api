@@ -35,7 +35,7 @@ export class ChatService {
   }
 
   async getChats() {
-    return this.chatModel.find({}, { __v: 0 }).sort({ timestamp: -1 });
+    return this.chatModel.find({}, { __v: 0 }).sort({ updatedAt: -1 });
   }
 
   async getChat(chatId: string) {
