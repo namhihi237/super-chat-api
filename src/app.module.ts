@@ -8,21 +8,29 @@ import { CommonResponseInterceptor } from './interceptors/response';
 import { OpenAiModule } from './shared/open-ai/open-ai.module';
 import { config } from 'dotenv';
 import { ThrottlerModule } from '@nestjs/throttler';
+import { UtilsService } from './shared/utils/utils.service';
+import { UtilsModule } from './shared/utils/utils.module';
+import { AuthService } from './modules/auth/auth.service';
+import { AuthModule } from './modules/auth/auth.module';
 config();
 @Module({
   imports: [
-    // ThrottlerModule.forRoot({
-    //   ttl: 60, // Time-to-live for rate limiter
-    //   limit: 30, // Maximum requests allowed in the defined duration
-    // }),
+    ThrottlerModule.forRoot({
+      ttl: 60, // Time-to-live for rate limiter
+      limit: 30, // Maximum requests allowed in the defined duration
+    }),
     ChatModule,
     MongooseModule.forRoot(process.env.DATABASE_CONNECTION),
     OpenAiModule,
+    UtilsModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [
     AppService,
     { provide: APP_INTERCEPTOR, useClass: CommonResponseInterceptor },
+    UtilsService,
+    AuthService,
   ],
 })
 export class AppModule {}
