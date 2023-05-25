@@ -12,6 +12,7 @@ import { UtilsService } from './shared/utils/utils.service';
 import { UtilsModule } from './shared/utils/utils.module';
 import { AuthService } from './modules/auth/auth.service';
 import { AuthModule } from './modules/auth/auth.module';
+import { UserModule } from './modules/user/user.module';
 config();
 @Module({
   imports: [
@@ -24,6 +25,7 @@ config();
     OpenAiModule,
     UtilsModule,
     AuthModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [
