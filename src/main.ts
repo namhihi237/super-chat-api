@@ -6,10 +6,13 @@ import helmet from 'helmet';
 
 async function bootstrap() {
   dotenv.config();
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule)
+    ;
   app.use(helmet());
   app.useGlobalPipes(new ValidationPipe());
   app.enableCors();
+
   await app.listen(process.env.PORT || 3000);
 }
+
 bootstrap();
